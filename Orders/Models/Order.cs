@@ -18,17 +18,17 @@ namespace Orders.Models
             Created = created;
             CustomerId = customerId;
             Id = id;
-            Status = OrderStatuses.Created;
+            Status = OrderStatuses.CREATED;
         }
     }
 
     [Flags]
     public enum OrderStatuses
     {
-        Created = 2,
-        Processing = 4,
-        Completed = 8,
-        Cancelled = 16,
-        Closed = 32
+        CREATED = 2,
+        PROCESSING = 4,
+        COMPLETED = 8,
+        CANCELLED = 16,
+        CLOSED = 32
     }
 }

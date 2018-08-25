@@ -18,17 +18,17 @@ namespace Orders.Services
             _customers.Add(new Customer(4, "Leaf & Mortar"));
         }
 
-        public Customer GerCustomerById(int id)
+        public Customer GetCustomerById(int id)
         {
-            return GerCustomerByIdAsync(id).Result;
+            return GetCustomerByIdAsync(id).Result;
         }
 
-        public Task<Customer> GerCustomerByIdAsync(int id)
+        public Task<Customer> GetCustomerByIdAsync(int id)
         {
             return Task.FromResult(_customers.Single(o => Equals(o.Id, id)));
         }
 
-        public Task<IEnumerable<Customer>> GerCustomersAsync()
+        public Task<IEnumerable<Customer>> GetCustomersAsync()
         {
             return Task.FromResult(_customers.AsEnumerable());
         }
@@ -36,10 +36,10 @@ namespace Orders.Services
 
     public interface ICustomerService
     {
-        Customer GerCustomerById(int id);
+        Customer GetCustomerById(int id);
 
-        Task<Customer> GerCustomerByIdAsync(int id);
+        Task<Customer> GetCustomerByIdAsync(int id);
 
-        Task<IEnumerable<Customer>> GerCustomersAsync();
+        Task<IEnumerable<Customer>> GetCustomersAsync();
     }
 }
