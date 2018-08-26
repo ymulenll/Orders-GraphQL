@@ -7,9 +7,10 @@ namespace Orders.Schema
 {
     public class OrdersSchema : GraphQL.Types.Schema
     {
-        public OrdersSchema(OrdersQuery query, IDependencyResolver resolver)
+        public OrdersSchema(OrdersQuery query, OrdersMutation ordersMutation, IDependencyResolver resolver)
         {
             Query = query;
+            Mutation = ordersMutation;
             DependencyResolver = resolver;
         }
     }

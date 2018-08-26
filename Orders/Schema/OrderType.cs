@@ -17,6 +17,8 @@ namespace Orders.Schema
                 resolve: context => customers.GetCustomerByIdAsync(context.Source.CustomerId));
 
             Field(o => o.Created);
+
+            Field<OrderStatusesEnum>("status", resolve: context => context.Source.Status);
         }
     }
 }
