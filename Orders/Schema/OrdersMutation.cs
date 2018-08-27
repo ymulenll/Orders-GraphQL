@@ -18,6 +18,7 @@ namespace Orders.Schema
                 {
                     var inputOrder = context.GetArgument<OrderCreateInput>("order");
                     var newOrder = new Order(inputOrder.Name, inputOrder.Description, inputOrder.Created, inputOrder.CustomerId, Guid.NewGuid().ToString());
+
                     return orders.CreateAsync(newOrder);
                 });
 
@@ -26,6 +27,11 @@ namespace Orders.Schema
                 resolve: async context =>
                 {
                     var orderId = context.GetArgument<string>("orderId");
+
+                    var order = await orders.GetOrderByIdAsync(orderId);
+                    var newOrderEvent = new OrderEvent(order.Id, order.Name, OrderStatuses.PROCESSING, DateTime.Now);
+                    orderEvents.AddEvent(newOrderEvent);
+
                     return await context.TryAsyncResolve(async c => await orders.StartAsync(orderId));
                 });
         }

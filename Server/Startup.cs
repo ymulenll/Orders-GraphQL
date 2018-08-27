@@ -30,6 +30,9 @@ namespace Server
             services.AddSingleton<OrdersMutation>();
             services.AddSingleton<OrderCreateInputType>();
             services.AddSingleton<OrderStatusesEnum>();
+            services.AddSingleton<OrdersSubscription>();
+            services.AddSingleton<OrderEventType>();
+            services.AddSingleton<IOrderEventService, OrderEventService>();
 
             services.AddSingleton<IDependencyResolver>(c =>
                 new FuncDependencyResolver(c.GetRequiredService));

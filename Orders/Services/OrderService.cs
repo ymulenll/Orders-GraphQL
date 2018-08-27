@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Orders.Models;
 
@@ -9,10 +8,14 @@ namespace Orders.Services
 {
     public class OrderService : IOrderService
     {
-        private IList<Order> _orders;
+        private readonly IOrderEventService _events;
+        private readonly IOrderEventService _orderEvents;
+        private readonly IList<Order> _orders;
 
-        public OrderService()
+        public OrderService(IOrderEventService events, IOrderEventService orderEvents)
         {
+            _events = events;
+            _orderEvents = orderEvents;
             _orders = new List<Order>();
             _orders.Add(new Order("1000", "250 Conference brochures", DateTime.Now, 1, "FAEBD971-CBA5-4CED-8AD5-CC0B8D4B7827"));
             _orders.Add(new Order("2000", "250 T-shirts", DateTime.Now.AddHours(1), 2, "F43A4F9D-7AE9-4A19-93D9-2018387D5378"));
@@ -35,12 +38,19 @@ namespace Orders.Services
 
             order.Start();
 
+            var orderEvent = new OrderEvent(order.Id, order.Name, order.Status, DateTime.Now);
+            _orderEvents.AddEvent(orderEvent);
+
             return Task.FromResult(order);
         }
 
         public Task<Order> CreateAsync(Order order)
         {
             _orders.Add(order);
+
+            var orderEvent = new OrderEvent(order.Id, order.Name, order.Status, DateTime.Now);
+            _events.AddEvent(orderEvent);
+
             return Task.FromResult(order);
         }
 
