@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using GraphQL.Types;
 using Orders.Models;
 using Orders.Services;
@@ -27,10 +25,6 @@ namespace Orders.Schema
                 resolve: async context =>
                 {
                     var orderId = context.GetArgument<string>("orderId");
-
-                    var order = await orders.GetOrderByIdAsync(orderId);
-                    var newOrderEvent = new OrderEvent(order.Id, order.Name, OrderStatuses.PROCESSING, DateTime.Now);
-                    orderEvents.AddEvent(newOrderEvent);
 
                     return await context.TryAsyncResolve(async c => await orders.StartAsync(orderId));
                 });
